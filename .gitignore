@@ -173,3 +173,5 @@ cython_debug/
 
 #my
 pix/
+__pycache__
+**/__pycache__/
