@@ -3,6 +3,10 @@ import ocr_recognition
 import tkinter as tk
 from tkinter import messagebox
 import keyboard  # 导入 keyboard 库
+import os
+from PIL import Image, ImageTk  # 导入 Pillow 库
+import pystray  # 导入 pystray 库
+from pystray import MenuItem as item
 
 def show_ocr_result(text):
     def copy_to_clipboard():
@@ -32,7 +36,38 @@ def take_screenshot_and_ocr():
         if ocr_result:
             show_ocr_result(ocr_result)
 
+def on_quit(icon, item):
+    icon.stop()
+    os._exit(0)
+
 def main():
+    # 创建一个隐藏的 Tkinter 窗口，用于设置任务栏图标
+    root = tk.Tk()
+    root.withdraw()  # 隐藏主窗口
+
+    # 初始化 icon_image 变量
+    icon_image = None
+
+    # 检查图标文件是否存在
+    icon_path = 'new_icon.ico'  # 使用新的图标文件名
+    if os.path.exists(icon_path):
+        try:
+            # 使用 PIL 加载图标文件
+            icon_image = Image.open(icon_path)
+            icon_photo = ImageTk.PhotoImage(icon_image)
+            print(f"成功加载图标")
+        except Exception as e:
+            print(f"无法加载图标文件: {e}")
+    else:
+        print("图标文件不存在")
+
+    # 确保 icon_image 已初始化
+    if icon_image:
+        # 创建系统托盘图标
+        menu = (item('Quit', on_quit),)
+        icon = pystray.Icon("OCR Tool", icon_image, "OCR Tool", menu)
+        icon.run_detached()
+
     # 提示用户按 Alt+R 键进行截图并进行 OCR 识别
     print("Press Alt+R to take a screenshot and perform OCR.")
     # 绑定快捷键 Alt+R 到 take_screenshot_and_ocr 函数
