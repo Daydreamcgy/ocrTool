@@ -1,4 +1,4 @@
-import ocr_tool
+import screenshot_tool
 import ocr_recognition
 import tkinter as tk
 from tkinter import messagebox
@@ -25,7 +25,7 @@ def show_ocr_result(text):
 
 def take_screenshot_and_ocr():
     # 截图并获取截图路径
-    screenshot_path = ocr_tool.take_screenshot()
+    screenshot_path = screenshot_tool.take_screenshot()
     if screenshot_path:
         # 进行OCR识别
         ocr_result = ocr_recognition.ocr_recognition(screenshot_path)
