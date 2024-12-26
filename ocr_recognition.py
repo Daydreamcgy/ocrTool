@@ -28,6 +28,7 @@ def ocr_recognition(image_path):
     
     payload = {
         'image': img,
+        'language_type': 'JAP',  # 添加语言类型参数，支持日语
         'detect_direction': 'false',
         'vertexes_location': 'false',
         'paragraph': 'false',
